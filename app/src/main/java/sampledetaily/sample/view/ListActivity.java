@@ -51,7 +51,7 @@ public class ListActivity extends AppCompatActivity {
         songsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-               getDataForThisPosition(position);
+               getDataAtPosition(position);
 
             }
         });
@@ -59,12 +59,12 @@ public class ListActivity extends AppCompatActivity {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                new ReadJSON().execute(EnvironmentVariables.URL);
+                new RequestURL().execute(EnvironmentVariables.URL);
             }
         });
     }
 
-    private void getDataForThisPosition(Integer position) {
+    private void getDataAtPosition(Integer position) {
         try {
             jsonArray =  jsonObject.getJSONArray("results");
 
@@ -93,7 +93,7 @@ public class ListActivity extends AppCompatActivity {
         }
     }
 
-    class ReadJSON extends AsyncTask<String, Integer, String> {
+    class RequestURL extends AsyncTask<String, Integer, String> {
 
         @Override
         protected String doInBackground(String... params) {
