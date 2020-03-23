@@ -52,8 +52,13 @@ public class SongListViewAdapter extends ArrayAdapter<Song> {
                 .placeholder(EnvironmentVariables.PLACEHOLDERARRAY[randomIndex])
                 .error(EnvironmentVariables.PLACEHOLDERARRAY[randomIndex])
                 .into(album);
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("$ ").append(currentSong.getTrackPrice());
+        String trackPriceString = sb.toString();
+
         trackName.setText(currentSong.getTrackName());
-        price.setText(currentSong.getTrackPrice());
+        price.setText(trackPriceString);
         genre.setText(currentSong.getPrimaryGenreName());
 
         return convertView;

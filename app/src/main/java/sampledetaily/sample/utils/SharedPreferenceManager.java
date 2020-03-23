@@ -8,7 +8,7 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 
-import sampledetaily.sample.DetailyApplication;
+import sampledetaily.sample.data.EnvironmentVariables;
 import sampledetaily.sample.data.Song;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -17,42 +17,57 @@ public class SharedPreferenceManager {
 
     public static final String TAG = SharedPreferenceManager.class.getSimpleName();
     public Context context;
-    public Activity activity;
+    private SharedPreferences preferences;
+    SharedPreferences.Editor editor;
 
-    public SharedPreferenceManager(Context context, Activity activity){
+    public SharedPreferenceManager(Context context) {
         this.context = context;
-        this.activity = activity;
+        this.preferences = context.getSharedPreferences("SharedPreferences", MODE_PRIVATE);
+        this.editor = preferences.edit();
     }
 
-    public void saveStringSP(String key, String value){
+    public void saveStringSP(String key, String value) {
         Log.d(TAG, "== 2 == saveStringSP NICOLE: ");
-
-        SharedPreferences preferences = activity.getSharedPreferences("SharedPreferences", MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
         editor.putString(key, value);
         editor.apply();
     }
 
-    public String getStringSP(String key){
-        SharedPreferences preferences = activity.getSharedPreferences("SharedPreferences", MODE_PRIVATE);
+    public String getStringSP(String key) {
         String name = preferences.getString(key, "");
         return name;
     }
 
-    public void saveSongSP(String key, Song song){
+    public void saveSongSP(String key, Song song) {
         Gson gson = new Gson();
         String json = gson.toJson(song);
-        SharedPreferences preferences = activity.getSharedPreferences("SharedPreferences", MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
         editor.putString(key, json);
         editor.apply();
     }
 
-    public Song getSongSP(String key){
+    public Song getSongSP(String key) {
         Gson gson = new Gson();
-        SharedPreferences preferences = activity.getSharedPreferences("SharedPreferences", MODE_PRIVATE);
         String json = preferences.getString(key, "");
         Song song = gson.fromJson(json, Song.class);
         return song;
+    }
+
+    public void saveLastSeenTime(long epochTime) {
+        editor.putLong(EnvironmentVariables.LAST_LOGIN_TIME, System.currentTimeMillis());
+        editor.apply();
+    }
+
+    public long getLastSeenTime() {
+        long lastLoginTime = preferences.getLong(EnvironmentVariables.LAST_LOGIN_TIME, 0L);
+        return lastLoginTime;
+    }
+
+    public void saveLastUserActivity(int userActivity) {
+        editor.putInt(EnvironmentVariables.LAST_USER_ACTIVITY, userActivity);
+        editor.apply();
+    }
+
+    public int getLastUserActivity() {
+        int lastUserActivity = preferences.getInt(EnvironmentVariables.LAST_USER_ACTIVITY, -1);
+        return lastUserActivity;
     }
 }

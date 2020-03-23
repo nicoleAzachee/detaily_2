@@ -5,6 +5,15 @@
     android:background="@color/colorPrimaryDark"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <TextView
+        android:id="@+id/last_session_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#FAB6B6B6"
+        android:gravity="center"
+        android:text="User last session: "
+        android:background="#FA3A3A3A"/>
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_action"
         android:layout_width="wrap_content"
@@ -19,6 +28,7 @@
     <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/list"></ListView>
+        android:id="@+id/list"
+        android:layout_marginTop="20dp"></ListView>
 
 </RelativeLayout>

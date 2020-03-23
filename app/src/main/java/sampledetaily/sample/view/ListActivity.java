@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.AdapterView;
 
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -29,6 +30,7 @@ import sampledetaily.sample.data.EnvironmentVariables;
 import sampledetaily.sample.SongListViewAdapter;
 import sampledetaily.sample.utils.InputUtils;
 import sampledetaily.sample.utils.SharedPreferenceManager;
+import sampledetaily.sample.utils.UserLoggerUtil;
 
 public class ListActivity extends AppCompatActivity {
 
@@ -43,11 +45,13 @@ public class ListActivity extends AppCompatActivity {
     private String primaryGenreName = "";
     private String image = "";
 
-    private String longDescription = ""; //in detail view
+    private String longDescription = "";
     private String artistName = "";
 
     SharedPreferenceManager sharedPreferenceManager;
     Context context;
+
+    TextView sessionText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +60,9 @@ public class ListActivity extends AppCompatActivity {
         context = this;
         songsArray = new ArrayList<>();
         songsListView = (ListView) findViewById(R.id.list);
-        sharedPreferenceManager = new SharedPreferenceManager(getApplicationContext(), this);
+        sessionText = (TextView) findViewById(R.id.last_session_text);
+
+        sharedPreferenceManager = new SharedPreferenceManager(this);
 
         songsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -81,6 +87,16 @@ public class ListActivity extends AppCompatActivity {
                 new RequestURL().execute(EnvironmentVariables.URL);
             }
         });
+
+        String sessionValue = "User Logged Time:" + sharedPreferenceManager.getLastSeenTime() +
+                  "on Activity: " + sharedPreferenceManager.getLastUserActivity();
+        sessionText.setText(sessionValue);
+    }
+
+    @Override
+    protected void onPause() {
+        UserLoggerUtil.updateLastActivity(this, EnvironmentVariables.LIST_VIEW_ACTIVITY);
+        super.onPause();
     }
 
     private void getDataAtPosition(Integer position) {

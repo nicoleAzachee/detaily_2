@@ -8,6 +8,10 @@ public class EnvironmentVariables {
     public static String JSONRESPONSE = "jsonResponse";
     public static String CURRENTSONG = "currentSong";
     public static String SONGID = "songId";
+    public static int LIST_VIEW_ACTIVITY = 0;
+    public static int DETAIL_VIEW_ACTIVITY = 1;
+    public static String LAST_LOGIN_TIME = "lastLoginTime";
+    public static String LAST_USER_ACTIVITY = "lastUserActivity";
 
     public static final String TRACK_NAME = "trackName";
     public static final String TRACK_PRICE = "trackPrice";

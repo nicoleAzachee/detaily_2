@@ -3,6 +3,7 @@ package sampledetaily.sample.view;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -15,6 +16,7 @@ import com.squareup.picasso.Picasso;
 import sampledetaily.sample.R;
 import sampledetaily.sample.data.EnvironmentVariables;
 import sampledetaily.sample.utils.InputUtils;
+import sampledetaily.sample.utils.UserLoggerUtil;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -26,17 +28,17 @@ public class DetailActivity extends AppCompatActivity {
         setContentView(R.layout.song_detail_layout);
         context = this;
 
-        ImageButton back = (ImageButton)findViewById(R.id.back);
+        ImageButton back = (ImageButton) findViewById(R.id.back);
 
-        TextView trackName = (TextView)findViewById(R.id.trackName);
-        TextView trackPrice = (TextView)findViewById(R.id.trackPrice);
-        TextView primaryGenreName = (TextView)findViewById(R.id.primaryGenreName);
-        ImageView image = (ImageView)findViewById(R.id.image);
-        TextView longDescription = (TextView)findViewById(R.id.longDescription);
-        TextView artistName = (TextView)findViewById(R.id.artistName);
+        TextView trackName = (TextView) findViewById(R.id.trackName);
+        TextView trackPrice = (TextView) findViewById(R.id.trackPrice);
+        TextView primaryGenreName = (TextView) findViewById(R.id.primaryGenreName);
+        ImageView image = (ImageView) findViewById(R.id.image);
+        TextView longDescription = (TextView) findViewById(R.id.longDescription);
+        TextView artistName = (TextView) findViewById(R.id.artistName);
 
         StringBuilder sb = new StringBuilder();
-        sb.append("$").append(getIntent().getExtras().getString(EnvironmentVariables.TRACK_PRICE));
+        sb.append("$ ").append(getIntent().getExtras().getString(EnvironmentVariables.TRACK_PRICE));
         String trackPriceString = sb.toString();
 
         trackName.setText(getIntent().getExtras().getString(EnvironmentVariables.TRACK_NAME));
@@ -63,13 +65,18 @@ public class DetailActivity extends AppCompatActivity {
         buyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "Added to cart! :)",
-                        Toast.LENGTH_SHORT).show();
+                Toast toast = Toast.makeText(context, "Added to cart! :)", Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
             }
         });
 
     }
 
-
+    @Override
+    protected void onPause() {
+        UserLoggerUtil.updateLastActivity(this, EnvironmentVariables.DETAIL_VIEW_ACTIVITY);
+        super.onPause();
+    }
 
 }
