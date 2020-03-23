@@ -4,11 +4,21 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
+import java.util.Random;
+
+import sampledetaily.sample.DetailyApplication;
 import sampledetaily.sample.R;
+import sampledetaily.sample.data.EnvironmentVariables;
+import sampledetaily.sample.utils.InputUtils;
 
 public class DetailActivity extends AppCompatActivity {
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,16 +30,26 @@ public class DetailActivity extends AppCompatActivity {
         TextView trackName = (TextView)findViewById(R.id.trackName);
         TextView trackPrice = (TextView)findViewById(R.id.trackPrice);
         TextView primaryGenreName = (TextView)findViewById(R.id.primaryGenreName);
-        TextView image = (TextView)findViewById(R.id.image);
+        ImageView image = (ImageView)findViewById(R.id.image);
         TextView longDescription = (TextView)findViewById(R.id.longDescription);
         TextView artistName = (TextView)findViewById(R.id.artistName);
 
-        trackName.setText("trackName  :  "+getIntent().getExtras().getString("trackName"));
-        trackPrice.setText("trackPrice  :  "+getIntent().getExtras().getString("trackPrice")+"\n");
-        primaryGenreName.setText("primaryGenreName  :  "+getIntent().getExtras().getString("primaryGenreName")+"\n");
-        image.setText("image  :  "+getIntent().getExtras().getString("image")+"\n");
-        longDescription.setText("longDescription  :  "+getIntent().getExtras().getString("longDescription")+"\n");
-        artistName.setText("artistName  :  "+getIntent().getExtras().getString("artistName")+"\n");
+        StringBuilder sb = new StringBuilder();
+        sb.append("$").append(getIntent().getExtras().getString("trackPrice"));
+        String trackPriceString = sb.toString();
+
+        trackName.setText(getIntent().getExtras().getString("trackName"));
+        trackPrice.setText(trackPriceString);
+        primaryGenreName.setText(getIntent().getExtras().getString("primaryGenreName"));
+        longDescription.setText(getIntent().getExtras().getString("longDescription"));
+        artistName.setText(getIntent().getExtras().getString("artistName"));
+
+        int randomIndex = InputUtils.generateRandomIndex(0, 7);
+
+        Picasso.get().load(getIntent().getExtras().getString("image"))
+                .placeholder(EnvironmentVariables.PLACEHOLDERARRAY[randomIndex])
+                .error(EnvironmentVariables.PLACEHOLDERARRAY[randomIndex])
+                .into(image);
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -38,5 +58,7 @@ public class DetailActivity extends AppCompatActivity {
             }
         });
     }
+
+
 
 }

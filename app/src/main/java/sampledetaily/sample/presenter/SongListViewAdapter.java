@@ -14,7 +14,9 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 import sampledetaily.sample.R;
+import sampledetaily.sample.data.EnvironmentVariables;
 import sampledetaily.sample.data.Song;
+import sampledetaily.sample.utils.InputUtils;
 
 
 public class SongListViewAdapter extends ArrayAdapter<Song> {
@@ -46,7 +48,13 @@ public class SongListViewAdapter extends ArrayAdapter<Song> {
         TextView genre = (TextView) convertView.findViewById(R.id.genre);
         TextView price = (TextView) convertView.findViewById(R.id.trackPrice);
 
-        Picasso.with(context).load(currentSong.getImage()).into(album);
+        int randomIndex = InputUtils.generateRandomIndex(0, 7);
+
+        Picasso.get().load(currentSong.getImage())
+                .placeholder(EnvironmentVariables.PLACEHOLDERARRAY[randomIndex])
+                .error(EnvironmentVariables.PLACEHOLDERARRAY[randomIndex])
+                .into(album);
+
         trackName.setText(currentSong.getTrackName());
         price.setText(currentSong.getTrackPrice());
         genre.setText(currentSong.getPrimaryGenreName());

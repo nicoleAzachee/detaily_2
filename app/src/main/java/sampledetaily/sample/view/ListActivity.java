@@ -100,6 +100,7 @@ public class ListActivity extends AppCompatActivity {
             intent.putExtra("primaryGenreName",primaryGenreName);
             intent.putExtra("longDescription",longDescription);
             intent.putExtra("artistName",artistName);
+            intent.putExtra("image",image);
 
             startActivity(intent);
         } catch (JSONException e) {
