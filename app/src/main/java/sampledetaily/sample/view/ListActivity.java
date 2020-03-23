@@ -32,14 +32,15 @@ public class ListActivity extends AppCompatActivity {
     private JSONArray jsonArray;
     JSONObject jsonObject;
 
-    private String trackName;
-    private String trackPrice;
-    private String primaryGenreName;
-    private String image;
+    private String trackName = "";
+    private String trackPrice = "";
+    private String primaryGenreName = "";
+    private String image = "";
 
-    private String longDescription; //in detail view
-    private String artistName;
+    private String longDescription = ""; //in detail view
+    private String artistName = "";
 
+    SharedPreferenceManager sharedPreferenceManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +48,7 @@ public class ListActivity extends AppCompatActivity {
         setContentView(R.layout.song_list_layout);
         songsArray = new ArrayList<>();
         songsListView = (ListView) findViewById(R.id.list);
+        sharedPreferenceManager = new SharedPreferenceManager(getApplicationContext(), this);
 
         songsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -78,7 +80,7 @@ public class ListActivity extends AppCompatActivity {
             artistName = songObject.getString("artistName");
 
             Song currentSong = new Song(trackName, trackPrice, primaryGenreName, image);
-            SharedPreferenceManager.saveSongSP(EnvironmentVariables.CURRENTSONG, currentSong);
+            sharedPreferenceManager.saveSongSP(EnvironmentVariables.CURRENTSONG, currentSong);
 
             Intent intent = new Intent(ListActivity.this, DetailActivity.class);
             intent.putExtra("trackName",trackName);
