@@ -13,6 +13,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
@@ -66,6 +67,17 @@ public class ListActivity extends AppCompatActivity {
         });
     }
 
+    private String checkFieldExists(String field, JSONObject jsonObject){
+        String result = "";
+        try{
+            result = jsonObject.getString(field);
+            return result;
+        }catch(JSONException e){
+            e.printStackTrace();
+        }
+        return result;
+    }
+
     private void getDataAtPosition(Integer position) {
         try {
             jsonArray =  jsonObject.getJSONArray("results");
@@ -75,9 +87,9 @@ public class ListActivity extends AppCompatActivity {
             trackPrice = songObject.getString("trackPrice");
             primaryGenreName = songObject.getString("primaryGenreName");
             image = songObject.getString("artworkUrl100");
-
-            longDescription = songObject.getString("longDescription");
             artistName = songObject.getString("artistName");
+
+            longDescription = checkFieldExists("longDescription", songObject);
 
             Song currentSong = new Song(trackName, trackPrice, primaryGenreName, image);
             sharedPreferenceManager.saveSongSP(EnvironmentVariables.CURRENTSONG, currentSong);

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="sampledetaily.sample.view.DetailActivity"
     tools:showIn="@layout/song_detail_layout">
@@ -31,6 +31,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAlignment="center"
+        android:text="trackPrice"
         android:textColor="@android:color/white"
         android:textSize="18dp" />
 
@@ -39,11 +40,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAlignment="center"
+        android:text="genre"
         android:textColor="@android:color/white"
         android:textSize="18dp" />
 
     <TextView
         android:id="@+id/image"
+        android:text="image"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@android:color/white"
