@@ -88,6 +88,17 @@
 
         </LinearLayout>
 
+        <Button
+            android:layout_marginTop="40dp"
+            android:id="@+id/buy_button"
+            android:layout_width="160dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:background="@drawable/button_bg"
+            android:textSize="15dp"
+            android:textColor="@color/colorPrimaryDark"
+            android:text="Add to cart"/>
+
     </LinearLayout>
 
 </ScrollView>

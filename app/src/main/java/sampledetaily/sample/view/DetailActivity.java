@@ -1,11 +1,14 @@
 package sampledetaily.sample.view;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -15,12 +18,13 @@ import sampledetaily.sample.utils.InputUtils;
 
 public class DetailActivity extends AppCompatActivity {
 
-
+    Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.song_detail_layout);
+        context = this;
 
         ImageButton back = (ImageButton)findViewById(R.id.back);
 
@@ -54,6 +58,16 @@ public class DetailActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        Button buyButton = (Button) findViewById(R.id.buy_button);
+        buyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(context, "Added to cart! :)",
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
 

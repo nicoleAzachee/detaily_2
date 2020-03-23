@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Detaily</string>
     <string name="detail_activity_label">Detail View</string>
+    <string name="action_home_name">Sample action</string>
 </resources>

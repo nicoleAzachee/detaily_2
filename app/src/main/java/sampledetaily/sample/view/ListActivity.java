@@ -1,19 +1,23 @@
 package sampledetaily.sample.view;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
+
 import android.widget.ListView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.IOException;
+
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
@@ -22,7 +26,8 @@ import java.util.ArrayList;
 import sampledetaily.sample.R;
 import sampledetaily.sample.data.Song;
 import sampledetaily.sample.data.EnvironmentVariables;
-import sampledetaily.sample.presenter.SongListViewAdapter;
+import sampledetaily.sample.SongListViewAdapter;
+import sampledetaily.sample.utils.InputUtils;
 import sampledetaily.sample.utils.SharedPreferenceManager;
 
 public class ListActivity extends AppCompatActivity {
@@ -42,11 +47,13 @@ public class ListActivity extends AppCompatActivity {
     private String artistName = "";
 
     SharedPreferenceManager sharedPreferenceManager;
+    Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.song_list_layout);
+        context = this;
         songsArray = new ArrayList<>();
         songsListView = (ListView) findViewById(R.id.list);
         sharedPreferenceManager = new SharedPreferenceManager(getApplicationContext(), this);
@@ -59,23 +66,21 @@ public class ListActivity extends AppCompatActivity {
             }
         });
 
+        FloatingActionButton fab = findViewById(R.id.fab_action);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(context, "Show me love!",
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 new RequestURL().execute(EnvironmentVariables.URL);
             }
         });
-    }
-
-    private String checkFieldExists(String field, JSONObject jsonObject){
-        String result = "";
-        try{
-            result = jsonObject.getString(field);
-            return result;
-        }catch(JSONException e){
-            e.printStackTrace();
-        }
-        return result;
     }
 
     private void getDataAtPosition(Integer position) {
@@ -89,7 +94,7 @@ public class ListActivity extends AppCompatActivity {
             image = songObject.getString(EnvironmentVariables.IMAGE);
             artistName = songObject.getString(EnvironmentVariables.ARTIST_NAME);
 
-            longDescription = checkFieldExists(EnvironmentVariables.LONG_DESC, songObject);
+            longDescription = InputUtils.checkFieldExists(EnvironmentVariables.LONG_DESC, songObject);
 
             Song currentSong = new Song(trackName, trackPrice, primaryGenreName, image);
             sharedPreferenceManager.saveSongSP(EnvironmentVariables.CURRENTSONG, currentSong);

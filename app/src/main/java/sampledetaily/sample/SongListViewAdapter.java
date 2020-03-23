@@ -1,4 +1,4 @@
-package sampledetaily.sample.presenter;
+package sampledetaily.sample;
 
 import android.app.Activity;
 import android.content.Context;
