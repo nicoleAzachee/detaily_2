@@ -5,11 +5,13 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -52,6 +54,11 @@ public class ListActivity extends AppCompatActivity {
     Context context;
 
     TextView sessionText;
+    SwipeRefreshLayout refreshLayout;
+    SongListViewAdapter adapter;
+    ProgressBar refreshProgressBar;
+
+    private boolean canRefresh;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,8 +66,15 @@ public class ListActivity extends AppCompatActivity {
         setContentView(R.layout.song_list_layout);
         context = this;
         songsArray = new ArrayList<>();
+        canRefresh = false;
+
         songsListView = (ListView) findViewById(R.id.list);
         sessionText = (TextView) findViewById(R.id.last_session_text);
+        refreshLayout = (SwipeRefreshLayout) findViewById(R.id.refresh);
+        refreshLayout.setColorSchemeResources(R.color.colorAccent);
+        refreshProgressBar = (ProgressBar) findViewById(R.id.refresh_progress);
+
+        adapter = new SongListViewAdapter(getApplicationContext(), R.layout.song_list_item, songsArray);
 
         sharedPreferenceManager = new SharedPreferenceManager(this);
 
@@ -69,6 +83,16 @@ public class ListActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                getDataAtPosition(position);
 
+            }
+        });
+
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                if(canRefresh){
+                    loadSongList();
+                    refreshLayout.setRefreshing(false);
+                }
             }
         });
 
@@ -81,16 +105,28 @@ public class ListActivity extends AppCompatActivity {
             }
         });
 
+        loadSongList();
+
+        String sessionValue = "User Logged Time:" + sharedPreferenceManager.getLastSeenTime() +
+                  "on Activity: " + sharedPreferenceManager.getLastUserActivity();
+        sessionText.setText(sessionValue);
+    }
+
+    private void resetSongList(){
+        if(null != songsArray){
+            songsArray.clear();
+            adapter.notifyDataSetChanged();
+        }
+    }
+    private void loadSongList(){
+        refreshProgressBar.setVisibility(View.VISIBLE);
+        resetSongList();
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 new RequestURL().execute(EnvironmentVariables.URL);
             }
         });
-
-        String sessionValue = "User Logged Time:" + sharedPreferenceManager.getLastSeenTime() +
-                  "on Activity: " + sharedPreferenceManager.getLastUserActivity();
-        sessionText.setText(sessionValue);
     }
 
     @Override
@@ -133,6 +169,7 @@ public class ListActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... params) {
+            canRefresh = false;
             return readURL(params[0]);
         }
 
@@ -154,8 +191,9 @@ public class ListActivity extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            SongListViewAdapter adapter = new SongListViewAdapter(getApplicationContext(), R.layout.song_list_item, songsArray);
             songsListView.setAdapter(adapter);
+            canRefresh = true;
+            refreshProgressBar.setVisibility(View.GONE);
         }
     }
 
