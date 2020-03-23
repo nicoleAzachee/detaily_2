@@ -83,24 +83,24 @@ public class ListActivity extends AppCompatActivity {
             jsonArray =  jsonObject.getJSONArray("results");
 
             songObject = jsonArray.getJSONObject(position);
-            trackName = songObject.getString("trackName");
-            trackPrice = songObject.getString("trackPrice");
-            primaryGenreName = songObject.getString("primaryGenreName");
-            image = songObject.getString("artworkUrl100");
-            artistName = songObject.getString("artistName");
+            trackName = songObject.getString(EnvironmentVariables.TRACK_NAME);
+            trackPrice = songObject.getString(EnvironmentVariables.TRACK_PRICE);
+            primaryGenreName = songObject.getString(EnvironmentVariables.GENRE);
+            image = songObject.getString(EnvironmentVariables.IMAGE);
+            artistName = songObject.getString(EnvironmentVariables.ARTIST_NAME);
 
-            longDescription = checkFieldExists("longDescription", songObject);
+            longDescription = checkFieldExists(EnvironmentVariables.LONG_DESC, songObject);
 
             Song currentSong = new Song(trackName, trackPrice, primaryGenreName, image);
             sharedPreferenceManager.saveSongSP(EnvironmentVariables.CURRENTSONG, currentSong);
 
             Intent intent = new Intent(ListActivity.this, DetailActivity.class);
-            intent.putExtra("trackName",trackName);
-            intent.putExtra("trackPrice",trackPrice);
-            intent.putExtra("primaryGenreName",primaryGenreName);
-            intent.putExtra("longDescription",longDescription);
-            intent.putExtra("artistName",artistName);
-            intent.putExtra("image",image);
+            intent.putExtra( EnvironmentVariables.TRACK_NAME, trackName);
+            intent.putExtra(EnvironmentVariables.TRACK_PRICE, trackPrice);
+            intent.putExtra(EnvironmentVariables.GENRE, primaryGenreName);
+            intent.putExtra(EnvironmentVariables.LONG_DESC, longDescription);
+            intent.putExtra(EnvironmentVariables.ARTIST_NAME, artistName);
+            intent.putExtra(EnvironmentVariables.PICASSO_IMAGE, image);
 
             startActivity(intent);
         } catch (JSONException e) {
@@ -119,23 +119,21 @@ public class ListActivity extends AppCompatActivity {
         protected void onPostExecute(String content) {
             try {
                 jsonObject = new JSONObject(content);
-                jsonArray =  jsonObject.getJSONArray("results");
+                jsonArray =  jsonObject.getJSONArray(EnvironmentVariables.RESULTS);
 
                 for(int i =0;i<jsonArray.length(); i++){
                     songObject = jsonArray.getJSONObject(i);
                     songsArray.add(new Song(
-                            songObject.getString("trackName"),
-                            songObject.getString("trackPrice"),
-                            songObject.getString("primaryGenreName"),
-                            songObject.getString("artworkUrl100")
+                            songObject.getString(EnvironmentVariables.TRACK_NAME),
+                            songObject.getString(EnvironmentVariables.TRACK_PRICE),
+                            songObject.getString(EnvironmentVariables.GENRE),
+                            songObject.getString(EnvironmentVariables.IMAGE)
                     ));
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            SongListViewAdapter adapter = new SongListViewAdapter(
-                    getApplicationContext(), R.layout.song_list_item, songsArray
-            );
+            SongListViewAdapter adapter = new SongListViewAdapter(getApplicationContext(), R.layout.song_list_item, songsArray);
             songsListView.setAdapter(adapter);
         }
     }

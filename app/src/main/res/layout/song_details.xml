@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:fillViewport="true"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="sampledetaily.sample.view.DetailActivity"
     tools:showIn="@layout/song_detail_layout">
@@ -12,70 +12,82 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:weightSum="10">
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:paddingBottom="60dp"
+        android:orientation="vertical">
 
         <ImageView
             android:id="@+id/image"
-            android:text="image"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="6"/>
+            android:layout_height="250dp"
+            android:scaleType="fitXY" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_weight="4">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="10">
 
-            <TextView
-                android:id="@+id/trackName"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="trackName"
-                android:layout_gravity="start"
-                android:textColor="#FAFAFA"
-                android:textSize="24dp"
-                android:textStyle="bold" />
+                android:layout_weight="3"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/trackName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:text="trackName"
+                    android:textColor="#FAFAFA"
+                    android:textSize="28dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/artistName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:text="artistName"
+                    android:textColor="#C2C2C2"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:id="@+id/primaryGenreName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:text="genre"
+                    android:textColor="#C2C2C2"
+                    android:textSize="18dp" />
+
+                <TextView
+                    android:id="@+id/longDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_marginTop="25dp"
+                    android:text="longDescription"
+                    android:textColor="#C2C2C2"
+                    android:textSize="18dp" />
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/trackPrice"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
+                android:paddingTop="20dp"
+                android:layout_weight="7"
                 android:text="trackPrice"
-                android:textColor="#C2C2C2"
-                android:textSize="22dp" />
-
-            <TextView
-                android:id="@+id/primaryGenreName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:text="genre"
-                android:textColor="#C2C2C2"
-                android:textSize="18dp" />
-
-            <TextView
-                android:id="@+id/longDescription"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="#C2C2C2"
-                android:layout_gravity="start"
-                android:text="longDescription"
-                android:textSize="18dp" />
-
-            <TextView
-                android:id="@+id/artistName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:text="artistName"
-                android:textColor="#C2C2C2"
-                android:textSize="18dp" />
+                android:textColor="#DDDDDD"
+                android:textSize="26dp"
+                android:textStyle="bold" />
 
         </LinearLayout>
 
     </LinearLayout>
 
-</LinearLayout>
+</ScrollView>

@@ -40,9 +40,7 @@ public class SongListViewAdapter extends ArrayAdapter<Song> {
             convertView = layoutInflater.inflate(R.layout.song_list_item, null, true);
 
         }
-
         Song currentSong = getItem(position);
-
         ImageView album = (ImageView) convertView.findViewById(R.id.image);
         TextView trackName = (TextView) convertView.findViewById(R.id.trackName);
         TextView genre = (TextView) convertView.findViewById(R.id.genre);
@@ -54,7 +52,6 @@ public class SongListViewAdapter extends ArrayAdapter<Song> {
                 .placeholder(EnvironmentVariables.PLACEHOLDERARRAY[randomIndex])
                 .error(EnvironmentVariables.PLACEHOLDERARRAY[randomIndex])
                 .into(album);
-
         trackName.setText(currentSong.getTrackName());
         price.setText(currentSong.getTrackPrice());
         genre.setText(currentSong.getPrimaryGenreName());

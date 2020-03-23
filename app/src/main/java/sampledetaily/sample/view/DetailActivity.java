@@ -9,9 +9,6 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import java.util.Random;
-
-import sampledetaily.sample.DetailyApplication;
 import sampledetaily.sample.R;
 import sampledetaily.sample.data.EnvironmentVariables;
 import sampledetaily.sample.utils.InputUtils;
@@ -35,18 +32,18 @@ public class DetailActivity extends AppCompatActivity {
         TextView artistName = (TextView)findViewById(R.id.artistName);
 
         StringBuilder sb = new StringBuilder();
-        sb.append("$").append(getIntent().getExtras().getString("trackPrice"));
+        sb.append("$").append(getIntent().getExtras().getString(EnvironmentVariables.TRACK_PRICE));
         String trackPriceString = sb.toString();
 
-        trackName.setText(getIntent().getExtras().getString("trackName"));
+        trackName.setText(getIntent().getExtras().getString(EnvironmentVariables.TRACK_NAME));
         trackPrice.setText(trackPriceString);
-        primaryGenreName.setText(getIntent().getExtras().getString("primaryGenreName"));
-        longDescription.setText(getIntent().getExtras().getString("longDescription"));
-        artistName.setText(getIntent().getExtras().getString("artistName"));
+        primaryGenreName.setText(getIntent().getExtras().getString(EnvironmentVariables.GENRE));
+        longDescription.setText(getIntent().getExtras().getString(EnvironmentVariables.LONG_DESC));
+        artistName.setText(getIntent().getExtras().getString(EnvironmentVariables.ARTIST_NAME));
 
         int randomIndex = InputUtils.generateRandomIndex(0, 7);
 
-        Picasso.get().load(getIntent().getExtras().getString("image"))
+        Picasso.get().load(getIntent().getExtras().getString(EnvironmentVariables.PICASSO_IMAGE))
                 .placeholder(EnvironmentVariables.PLACEHOLDERARRAY[randomIndex])
                 .error(EnvironmentVariables.PLACEHOLDERARRAY[randomIndex])
                 .into(image);
