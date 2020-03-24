@@ -70,8 +70,8 @@ public class DetailActivity extends AppCompatActivity implements SongDetailContr
         int randomIndex = InputUtils.generateRandomIndex(0, 7);
 
         Picasso.get().load(getIntent().getExtras().getString(EnvironmentVariables.PICASSO_IMAGE))
-                .placeholder(EnvironmentVariables.PLACEHOLDERARRAY[randomIndex])
-                .error(EnvironmentVariables.PLACEHOLDERARRAY[randomIndex])
+                .placeholder(EnvironmentVariables.PLACEHOLDER_ARRAY[randomIndex])
+                .error(EnvironmentVariables.PLACEHOLDER_ARRAY[randomIndex])
                 .into(image);
     }
 

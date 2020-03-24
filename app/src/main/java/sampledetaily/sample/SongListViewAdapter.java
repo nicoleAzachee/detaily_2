@@ -48,8 +48,8 @@ public class SongListViewAdapter extends ArrayAdapter<Song> {
         int randomIndex = InputUtils.generateRandomIndex(0, 7);
 
         Picasso.get().load(currentSong.getImage())
-                .placeholder(EnvironmentVariables.PLACEHOLDERARRAY[randomIndex])
-                .error(EnvironmentVariables.PLACEHOLDERARRAY[randomIndex])
+                .placeholder(EnvironmentVariables.PLACEHOLDER_ARRAY[randomIndex])
+                .error(EnvironmentVariables.PLACEHOLDER_ARRAY[randomIndex])
                 .into(album);
 
         StringBuilder sb = new StringBuilder();

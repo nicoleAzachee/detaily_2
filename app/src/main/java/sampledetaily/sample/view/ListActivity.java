@@ -172,7 +172,7 @@ public class ListActivity extends AppCompatActivity implements SongListContract 
             longDescription = InputUtils.checkFieldExists(EnvironmentVariables.LONG_DESC, songObject);
 
             Song currentSong = new Song(trackName, trackPrice, primaryGenreName, image);
-            sharedPreferenceManager.saveSongSP(EnvironmentVariables.CURRENTSONG, currentSong);
+            sharedPreferenceManager.saveSongSP(EnvironmentVariables.CURRENT_SONG, currentSong);
 
             Intent intent = new Intent(ListActivity.this, DetailActivity.class);
             intent.putExtra( EnvironmentVariables.TRACK_NAME, trackName);
