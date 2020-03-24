@@ -43,6 +43,7 @@ public class DetailActivity extends AppCompatActivity implements SongDetailContr
         setListeners();
     }
 
+
     @Override
     public void initializeViews() {
         back = (ImageButton) findViewById(R.id.back);

@@ -113,6 +113,9 @@ public class ListActivity extends AppCompatActivity implements SongListContract 
         sessionText.setText(sessionValue);
     }
 
+    /**
+     * Clears songs list
+     */
     @Override
     public void resetSongList(){
         if(null != songsArray){
@@ -121,6 +124,9 @@ public class ListActivity extends AppCompatActivity implements SongListContract 
         }
     }
 
+    /**
+     * Updates song list, progress bar is shown
+     */
     @Override
     public void loadSongList(){
         refreshProgressBar.setVisibility(View.VISIBLE);
@@ -139,6 +145,10 @@ public class ListActivity extends AppCompatActivity implements SongListContract 
         super.onPause();
     }
 
+    /**
+     * @param theUrl to process
+     * @return url
+     */
     @Override
     public String readURL(String theUrl) {
         StringBuilder content = new StringBuilder();
@@ -157,6 +167,10 @@ public class ListActivity extends AppCompatActivity implements SongListContract 
         return content.toString();
     }
 
+    /**
+     * Gets song data at position and stores data for detail activity
+     * @param position
+     */
     @Override
     public void getDataAtPosition(Integer position) {
         try {
@@ -188,6 +202,9 @@ public class ListActivity extends AppCompatActivity implements SongListContract 
         }
     }
 
+    /**
+     * Class to request url, asynchronous.
+     */
     class RequestURL extends AsyncTask<String, Integer, String> {
 
         @Override
