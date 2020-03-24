@@ -27,14 +27,15 @@ import java.net.URLConnection;
 import java.util.ArrayList;
 
 import sampledetaily.sample.R;
+import sampledetaily.sample.contract.SongListContract;
 import sampledetaily.sample.data.Song;
 import sampledetaily.sample.data.EnvironmentVariables;
 import sampledetaily.sample.SongListViewAdapter;
 import sampledetaily.sample.utils.InputUtils;
-import sampledetaily.sample.utils.SharedPreferenceManager;
+import sampledetaily.sample.data.SharedPreferenceManager;
 import sampledetaily.sample.utils.UserLoggerUtil;
 
-public class ListActivity extends AppCompatActivity {
+public class ListActivity extends AppCompatActivity implements SongListContract {
 
     ArrayList<Song> songsArray;
     ListView songsListView;
@@ -112,13 +113,16 @@ public class ListActivity extends AppCompatActivity {
         sessionText.setText(sessionValue);
     }
 
-    private void resetSongList(){
+    @Override
+    public void resetSongList(){
         if(null != songsArray){
             songsArray.clear();
             adapter.notifyDataSetChanged();
         }
     }
-    private void loadSongList(){
+
+    @Override
+    public void loadSongList(){
         refreshProgressBar.setVisibility(View.VISIBLE);
         resetSongList();
         runOnUiThread(new Runnable() {
@@ -135,7 +139,26 @@ public class ListActivity extends AppCompatActivity {
         super.onPause();
     }
 
-    private void getDataAtPosition(Integer position) {
+    @Override
+    public String readURL(String theUrl) {
+        StringBuilder content = new StringBuilder();
+        try {
+            URL url = new URL(theUrl);
+            URLConnection urlConnection = url.openConnection();
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                content.append(line + "\n");
+            }
+            bufferedReader.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return content.toString();
+    }
+
+    @Override
+    public void getDataAtPosition(Integer position) {
         try {
             jsonArray =  jsonObject.getJSONArray("results");
 
@@ -197,21 +220,4 @@ public class ListActivity extends AppCompatActivity {
         }
     }
 
-
-    private static String readURL(String theUrl) {
-        StringBuilder content = new StringBuilder();
-        try {
-            URL url = new URL(theUrl);
-            URLConnection urlConnection = url.openConnection();
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
-            String line;
-            while ((line = bufferedReader.readLine()) != null) {
-                content.append(line + "\n");
-            }
-            bufferedReader.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return content.toString();
-    }
 }

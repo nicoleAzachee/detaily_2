@@ -3,6 +3,8 @@ package sampledetaily.sample.utils;
 import android.content.Context;
 import android.util.Log;
 
+import sampledetaily.sample.data.SharedPreferenceManager;
+
 public class UserLoggerUtil {
     private static String TAG = UserLoggerUtil.class.getSimpleName();
 

@@ -1,15 +1,10 @@
-package sampledetaily.sample.utils;
+package sampledetaily.sample.data;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.google.gson.Gson;
-
-import sampledetaily.sample.data.EnvironmentVariables;
-import sampledetaily.sample.data.Song;
 
 import static android.content.Context.MODE_PRIVATE;
 

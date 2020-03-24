@@ -14,13 +14,23 @@ import android.widget.Toast;
 import com.squareup.picasso.Picasso;
 
 import sampledetaily.sample.R;
+import sampledetaily.sample.contract.SongDetailContract;
 import sampledetaily.sample.data.EnvironmentVariables;
 import sampledetaily.sample.utils.InputUtils;
 import sampledetaily.sample.utils.UserLoggerUtil;
 
-public class DetailActivity extends AppCompatActivity {
+public class DetailActivity extends AppCompatActivity implements SongDetailContract {
 
     Context context;
+
+    ImageButton back;
+    TextView trackName;
+    TextView trackPrice;
+    TextView primaryGenreName;
+    ImageView image;
+    TextView longDescription;
+    TextView artistName;
+    Button buyButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,15 +38,25 @@ public class DetailActivity extends AppCompatActivity {
         setContentView(R.layout.song_detail_layout);
         context = this;
 
-        ImageButton back = (ImageButton) findViewById(R.id.back);
+        initializeViews();
+        setupViews();
+        setListeners();
+    }
 
-        TextView trackName = (TextView) findViewById(R.id.trackName);
-        TextView trackPrice = (TextView) findViewById(R.id.trackPrice);
-        TextView primaryGenreName = (TextView) findViewById(R.id.primaryGenreName);
-        ImageView image = (ImageView) findViewById(R.id.image);
-        TextView longDescription = (TextView) findViewById(R.id.longDescription);
-        TextView artistName = (TextView) findViewById(R.id.artistName);
+    @Override
+    public void initializeViews() {
+        back = (ImageButton) findViewById(R.id.back);
+        trackName = (TextView) findViewById(R.id.trackName);
+        trackPrice = (TextView) findViewById(R.id.trackPrice);
+        primaryGenreName = (TextView) findViewById(R.id.primaryGenreName);
+        image = (ImageView) findViewById(R.id.image);
+        longDescription = (TextView) findViewById(R.id.longDescription);
+        artistName = (TextView) findViewById(R.id.artistName);
+        buyButton = (Button) findViewById(R.id.buy_button);
+    }
 
+    @Override
+    public void setupViews() {
         StringBuilder sb = new StringBuilder();
         sb.append("$ ").append(getIntent().getExtras().getString(EnvironmentVariables.TRACK_PRICE));
         String trackPriceString = sb.toString();
@@ -53,7 +73,10 @@ public class DetailActivity extends AppCompatActivity {
                 .placeholder(EnvironmentVariables.PLACEHOLDERARRAY[randomIndex])
                 .error(EnvironmentVariables.PLACEHOLDERARRAY[randomIndex])
                 .into(image);
+    }
 
+    @Override
+    public void setListeners() {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -61,7 +84,7 @@ public class DetailActivity extends AppCompatActivity {
             }
         });
 
-        Button buyButton = (Button) findViewById(R.id.buy_button);
+
         buyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,7 +93,6 @@ public class DetailActivity extends AppCompatActivity {
                 toast.show();
             }
         });
-
     }
 
     @Override

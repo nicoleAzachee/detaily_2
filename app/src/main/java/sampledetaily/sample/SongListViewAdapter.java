@@ -13,7 +13,6 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-import sampledetaily.sample.R;
 import sampledetaily.sample.data.EnvironmentVariables;
 import sampledetaily.sample.data.Song;
 import sampledetaily.sample.utils.InputUtils;
